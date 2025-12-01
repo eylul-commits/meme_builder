@@ -62,4 +62,4 @@ class MemeBuilder:
         pass
 
     def is_meme_complete(self):
-        pass
+        return len(self.meme_components) == 3

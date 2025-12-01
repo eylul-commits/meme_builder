@@ -174,3 +174,30 @@ class TestMemeBuilder:
         assert self.builder.meme_components == []
         assert len(self.builder.contributions) != 0
         assert len(self.builder.votes) != 0
+    
+    def test_is_meme_complete_with_three_components(self):
+        self.builder.submit_component(1, "AI generated memes be like:")
+        self.builder.finalize_round()
+        self.builder.submit_component(2, "Human generated memes be like:")
+        self.builder.finalize_round()
+        self.builder.submit_component(3, "Cat generated memes be like:")
+        self.builder.finalize_round()
+        assert self.builder.is_meme_complete() is True
+
+    def test_is_meme_complete_with_two_components(self):
+        self.builder.submit_component(1, "AI generated memes be like:")
+        self.builder.finalize_round()
+        self.builder.submit_component(2, "Human generated memes be like:")
+        self.builder.finalize_round()
+        assert self.builder.is_meme_complete() is False
+
+    def test_is_meme_complete_with_four_components(self):
+        self.builder.submit_component(1, "AI generated memes be like:")
+        self.builder.finalize_round()
+        self.builder.submit_component(2, "Human generated memes be like:")
+        self.builder.finalize_round()
+        self.builder.submit_component(3, "Cat generated memes be like:")
+        self.builder.finalize_round()
+        self.builder.submit_component(4, "Dog generated memes be like:")
+        self.builder.finalize_round()
+        assert self.builder.is_meme_complete() is False
