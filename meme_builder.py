@@ -2,13 +2,22 @@ from typing import Dict, List, Optional
 
 
 class MemeBuilder:
-    def __init__(self, meme_components: List[str], contributions: Dict[str, str], votes: Dict[str, str]):
+    #meme_components: actual meme components
+    #contributions: [user_id, their submission for the round]
+    #votes: [voter_id, target_user_id (who they voted for)]
+    def __init__(self, meme_components: List[str], contributions: Dict[int, str], votes: Dict[int, int]):
         self.meme_components = meme_components
         self.contributions = contributions
         self.votes = votes
 
-    def submit_component(self, user_id: str, text: str):
-        pass
+    def submit_component(self, user_id: int, text: str):
+        if text == "" or text.isspace():
+            raise ValueError("Text cannot be empty")
+        if len(text) < 3 or len(text) > 200:
+            raise ValueError("Text must be between 3 and 200 characters")
+        
+        self.contributions[user_id] = text
+
 
     def cast_vote(self, voter_id: str, target_user_id: str):
         pass
