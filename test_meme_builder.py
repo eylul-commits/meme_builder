@@ -126,6 +126,10 @@ class TestMemeBuilder:
         self.builder.submit_component(1, "AI generated memes be like:")
         self.builder.submit_component(2, "Human generated memes be like:")
         assert self.builder.get_winning_component() is None
+    
+    def test_get_winner_with_no_contributions_returns_none(self):
+        # when there are no submissions at all
+        assert self.builder.get_winning_component() is None
 
     def test_single_contribution_can_win(self):
         self.builder.submit_component(1, "AI generated memes be like:")

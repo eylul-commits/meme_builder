@@ -39,6 +39,9 @@ class MemeBuilder:
         for contribution_user_id in self.contributions.keys():
             contributors_votes[contribution_user_id] = self.count_votes_for(contribution_user_id)
 
+        if not contributors_votes:
+            return None
+
         max_votes = max(contributors_votes.values())
         if max_votes == 0 and len(contributors_votes) != 1:
             return None
