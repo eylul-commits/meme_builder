@@ -1,0 +1,1 @@
+This project is a simple meme building game written in Python. Practicing how to write tests.
