@@ -28,9 +28,13 @@ class MemeBuilder:
         self.votes[voter_id] = target_user_id
 
     def get_current_contributions(self):
-        pass
+        return self.contributions
 
-    def get_winner(self):
+    #Get the number of votes for a specific user's contribution.
+    def count_votes_for(self, contribution_user_id: int):
+        return len([vote for vote in self.votes.values() if vote == contribution_user_id])
+
+    def get_winning_component(self):
         pass
 
     def finalize_round(self):

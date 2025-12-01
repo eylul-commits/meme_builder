@@ -80,3 +80,22 @@ class TestMemeBuilder:
         with pytest.raises(ValueError) as err:
             self.builder.cast_vote(1, 2)
         assert str(err.value) == "The user you are voting for does not exist"
+
+    def test_get_current_contributions(self):
+        self.builder.submit_component(1, "AI generated memes be like:")
+        self.builder.submit_component(2, "Human generated memes be like:")
+        assert self.builder.get_current_contributions() == {1: "AI generated memes be like:", 2: "Human generated memes be like:"}
+
+    def test_count_votes_for(self):
+        self.builder.submit_component(1, "AI generated memes be like:")
+        self.builder.submit_component(2, "Human generated memes be like:")
+        self.builder.cast_vote(1, 2)
+        self.builder.cast_vote(3, 2)
+        assert self.builder.count_votes_for(2) == 2
+
+    def test_count_votes_for_nonexistent_user(self):
+        self.builder.submit_component(1, "AI generated memes be like:")
+        self.builder.submit_component(2, "Human generated memes be like:")
+        assert self.builder.count_votes_for(3) == 0
+    
+    
