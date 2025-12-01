@@ -52,3 +52,31 @@ class TestMemeBuilder:
         self.builder.submit_component(1, "AI generated memes be like:")
         self.builder.submit_component(1, "AI generated memes be like: (updated)")
         assert self.builder.contributions[1] == "AI generated memes be like: (updated)"
+
+    def test_vote_for_existing_contribution(self):
+        self.builder.submit_component(1, "AI generated memes be like:")
+        self.builder.submit_component(2, "Human generated memes be like:")
+        self.builder.cast_vote(1, 2)
+        assert self.builder.votes[1] == 2
+
+    def test_vote_for_own_submission_rejected(self):
+        self.builder.submit_component(1, "AI generated memes be like:")
+        with pytest.raises(ValueError) as err:
+            self.builder.cast_vote(1, 1)
+        assert str(err.value) == "You cannot vote for yourself"
+
+    def test_vote_twice_rejected(self):
+        self.builder.submit_component(2, "Intern said 'it worked locally' before nuking prod")
+        self.builder.submit_component(3, "My code works but I have no idea why")
+        self.builder.cast_vote(1, 2)
+
+        with pytest.raises(ValueError) as err:
+            self.builder.cast_vote(1, 3)
+
+        assert str(err.value) == "You have already voted"
+
+    def test_vote_for_nonexistent_user(self):
+        self.builder.submit_component(1, "AI generated memes be like:")
+        with pytest.raises(ValueError) as err:
+            self.builder.cast_vote(1, 2)
+        assert str(err.value) == "The user you are voting for does not exist"

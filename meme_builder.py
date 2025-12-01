@@ -1,5 +1,4 @@
-from typing import Dict, List, Optional
-
+from typing import Dict, List
 
 class MemeBuilder:
     #meme_components: actual meme components
@@ -18,9 +17,15 @@ class MemeBuilder:
         
         self.contributions[user_id] = text
 
-
-    def cast_vote(self, voter_id: str, target_user_id: str):
-        pass
+    def cast_vote(self, voter_id: int, target_user_id: int):
+        if voter_id == target_user_id:
+            raise ValueError("You cannot vote for yourself")
+        if voter_id in self.votes:
+            raise ValueError("You have already voted")
+        if target_user_id not in self.contributions.keys():
+            raise ValueError("The user you are voting for does not exist")
+        
+        self.votes[voter_id] = target_user_id
 
     def get_current_contributions(self):
         pass
