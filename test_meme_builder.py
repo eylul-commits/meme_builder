@@ -98,4 +98,35 @@ class TestMemeBuilder:
         self.builder.submit_component(2, "Human generated memes be like:")
         assert self.builder.count_votes_for(3) == 0
     
+    def test_get_winner_clear_majority(self):
+        self.builder.submit_component(1, "AI generated memes be like:")
+        self.builder.submit_component(2, "Human generated memes be like:")
+        self.builder.cast_vote(1, 2)
+        self.builder.cast_vote(3, 2)
+        assert self.builder.get_winning_component() == "Human generated memes be like:"
+
+    def test_get_winner_returns_none_on_tie(self):
+        self.builder.submit_component(1, "AI generated memes be like:")
+        self.builder.submit_component(2, "Human generated memes be like:")
+        self.builder.cast_vote(1, 2)
+        self.builder.cast_vote(2, 1)
+        assert self.builder.get_winning_component() is None
+
+    def test_get_winner_three_way_tie(self):
+        self.builder.submit_component(1, "AI generated memes be like:")
+        self.builder.submit_component(2, "Human generated memes be like:")
+        self.builder.submit_component(3, "Cat generated memes be like:")
+        self.builder.cast_vote(1, 2)
+        self.builder.cast_vote(2, 1)
+        self.builder.cast_vote(4, 3)
+        assert self.builder.get_winning_component() is None
     
+    def test_get_winner_no_votes(self):
+        self.builder.submit_component(1, "AI generated memes be like:")
+        self.builder.submit_component(2, "Human generated memes be like:")
+        assert self.builder.get_winning_component() is None
+
+    def test_single_contribution_can_win(self):
+        self.builder.submit_component(1, "AI generated memes be like:")
+        assert self.builder.get_winning_component() == "AI generated memes be like:"
+

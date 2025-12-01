@@ -35,7 +35,19 @@ class MemeBuilder:
         return len([vote for vote in self.votes.values() if vote == contribution_user_id])
 
     def get_winning_component(self):
-        pass
+        contributors_votes: Dict[int, int] = {} #key: contribution_user_id, value: number of votes for that contribution
+        for contribution_user_id in self.contributions.keys():
+            contributors_votes[contribution_user_id] = self.count_votes_for(contribution_user_id)
+
+        max_votes = max(contributors_votes.values())
+        if max_votes == 0 and len(contributors_votes) != 1:
+            return None
+        user_ids_with_max_votes = [key for key in contributors_votes if contributors_votes[key] == max_votes]
+        
+        if len(user_ids_with_max_votes) != 1:
+            return None
+
+        return self.contributions.get(user_ids_with_max_votes[0])
 
     def finalize_round(self):
         pass
