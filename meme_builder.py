@@ -50,7 +50,13 @@ class MemeBuilder:
         return self.contributions.get(user_ids_with_max_votes[0])
 
     def finalize_round(self):
-        pass
+        winning_component = self.get_winning_component()
+        if winning_component is None:
+            return False
+        self.meme_components.append(winning_component)
+        self.contributions.clear()
+        self.votes.clear()
+        return True
 
     def get_meme(self):
         pass

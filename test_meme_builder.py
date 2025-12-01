@@ -130,3 +130,47 @@ class TestMemeBuilder:
         self.builder.submit_component(1, "AI generated memes be like:")
         assert self.builder.get_winning_component() == "AI generated memes be like:"
 
+    def test_finalize_adds_winner_to_meme(self):
+        self.builder.submit_component(1, "AI generated memes be like:")
+        self.builder.submit_component(2, "Human generated memes be like:")
+        self.builder.cast_vote(1, 2)
+        self.builder.cast_vote(3, 2)
+        assert self.builder.finalize_round() is True
+        assert self.builder.meme_components == ["Human generated memes be like:"]
+
+    def test_finalize_with_tie_returns_false(self):
+        self.builder.submit_component(1, "AI generated memes be like:")
+        self.builder.submit_component(2, "Human generated memes be like:")
+        self.builder.cast_vote(1, 2)
+        self.builder.cast_vote(2, 1)
+        assert self.builder.finalize_round() is False
+
+    def test_finalize_clears_round_state(self):
+        self.builder.submit_component(1, "AI generated memes be like:")
+        self.builder.submit_component(2, "Human generated memes be like:")
+        self.builder.cast_vote(1, 2)
+        self.builder.cast_vote(3, 2)
+        self.builder.finalize_round()
+        assert self.builder.contributions == {}
+        assert self.builder.votes == {}
+
+    def test_finalize_preserves_meme_history(self):
+        #No need for casting votes since if we have one contribution, it will win by default. i already tested this in test_single_contribution_can_win
+        self.builder.submit_component(1, "AI generated memes be like:")
+        self.builder.finalize_round()
+        self.builder.submit_component(2, "Cat generated memes be like:")
+        self.builder.finalize_round()
+        assert self.builder.meme_components == ["AI generated memes be like:", "Cat generated memes be like:"]
+    
+    def test_finalize_tie_does_not_add_to_meme(self):
+        self.builder.submit_component(1, "AI generated memes be like:")
+        self.builder.submit_component(2, "Human generated memes be like:")
+        self.builder.cast_vote(1, 2)
+        self.builder.cast_vote(2, 1)
+
+        result = self.builder.finalize_round()
+
+        assert result is False
+        assert self.builder.meme_components == []
+        assert len(self.builder.contributions) != 0
+        assert len(self.builder.votes) != 0
