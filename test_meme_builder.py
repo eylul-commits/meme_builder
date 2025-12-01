@@ -82,6 +82,7 @@ class TestMemeBuilder:
         assert str(err.value) == "The user you are voting for does not exist"
 
     def test_get_current_contributions(self):
+        #not sure if i should test this since it's just a getter method
         self.builder.submit_component(1, "AI generated memes be like:")
         self.builder.submit_component(2, "Human generated memes be like:")
         assert self.builder.get_current_contributions() == {1: "AI generated memes be like:", 2: "Human generated memes be like:"}
@@ -183,6 +184,7 @@ class TestMemeBuilder:
         self.builder.submit_component(3, "Cat generated memes be like:")
         self.builder.finalize_round()
         assert self.builder.is_meme_complete() is True
+        assert self.builder.meme_components == ["AI generated memes be like:", "Human generated memes be like:", "Cat generated memes be like:"]
 
     def test_is_meme_complete_with_two_components(self):
         self.builder.submit_component(1, "AI generated memes be like:")
@@ -201,3 +203,13 @@ class TestMemeBuilder:
         self.builder.submit_component(4, "Dog generated memes be like:")
         self.builder.finalize_round()
         assert self.builder.is_meme_complete() is False
+
+    def test_get_meme(self):
+        #not sure if i should test this since it's just a getter method
+        self.builder.submit_component(1, "AI generated memes be like:")
+        self.builder.finalize_round()
+        self.builder.submit_component(2, "Human generated memes be like:")
+        self.builder.finalize_round()
+        self.builder.submit_component(3, "Cat generated memes be like:")
+        self.builder.finalize_round()
+        assert self.builder.get_meme() == ["AI generated memes be like:", "Human generated memes be like:", "Cat generated memes be like:"]

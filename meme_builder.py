@@ -59,7 +59,7 @@ class MemeBuilder:
         return True
 
     def get_meme(self):
-        pass
+        return self.meme_components
 
     def is_meme_complete(self):
         return len(self.meme_components) == 3
