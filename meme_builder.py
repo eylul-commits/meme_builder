@@ -43,8 +43,6 @@ class MemeBuilder:
             return None
 
         max_votes = max(contributors_votes.values())
-        if max_votes == 0 and len(contributors_votes) != 1:
-            return None
         user_ids_with_max_votes = [key for key in contributors_votes if contributors_votes[key] == max_votes]
         
         if len(user_ids_with_max_votes) != 1:
