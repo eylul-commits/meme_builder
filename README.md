@@ -4,4 +4,4 @@ This project is a simple meme building game written in Python. Practicing how to
 
 *I wanted to use "int" instead of "str" to respresent "voter_id" and "user_id" because treating them as numbers just makes more sense in real world applications.
 
-*I am assuming, you do not have to contribute to vote.
+*I am assuming, you do not have to contribute to vote.  
